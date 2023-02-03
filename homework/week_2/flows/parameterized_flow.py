@@ -2,6 +2,7 @@ from pathlib import Path
 import pandas as pd
 from prefect import flow, task
 from prefect_gcp.cloud_storage import GcsBucket
+from prefect.filesystems import GitHub
 from random import randint
 from prefect.tasks import task_input_hash
 from datetime import timedelta
@@ -9,8 +10,7 @@ from typing import List
 import logging
 
 
-# @task(retries=3, cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1))
-@task(retries=3)
+@task(retries=3, cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1))
 def fetch(dataset_url: str) -> pd.DataFrame:
     """Read taxi data from web into pandas DataFrame"""
 
@@ -66,6 +66,10 @@ def etl_web_to_gcs(year: int, month: int, color: str) -> None:
 @flow()
 def etl_parent_flow(
     months: List[int], year: int , color: str):
+
+    
+    github_block = GitHub.load("github-victor-zoomcamp")
+    github_block.get_directory("week_2/flows")
   
     for month in months:
         logging.info(f"parent flow for {year}-{month} {color}")

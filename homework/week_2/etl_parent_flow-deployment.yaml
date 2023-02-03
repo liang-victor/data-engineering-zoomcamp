@@ -1,15 +1,15 @@
 ###
 ### A complete description of a Prefect Deployment for flow 'etl-parent-flow'
 ###
-name: parameterized etl
+name: parameterized flow via github
 description: null
-version: bfddf13760d7472da27f985841538281
+version: 0ea084be593c838f86efed1d9ca55504
 # The work queue that will handle this deployment's runs
 work_queue_name: default
 work_pool_name: null
 work_pool_queue_name: null
 tags: []
-parameters: {"months": [1], "color": "green", "year": 2020}
+parameters: {}
 schedule: null
 infra_overrides: {}
 infrastructure:
@@ -28,8 +28,17 @@ infrastructure:
 ###
 flow_name: etl-parent-flow
 manifest_path: null
-storage: null
-path: /home/victor/data-engineering-zoomcamp/homework/week_2
+storage:
+  repository: https://github.com/liang-victor/data-engineering-zoomcamp.git
+  reference: week-2
+  access_token: null
+  include_git_objects: true
+  _block_document_id: dea3d5d7-fde4-4b4c-ab24-019e6a5d6301
+  _block_document_name: github-victor-zoomcamp
+  _is_anonymous: false
+  block_type_slug: github
+  _block_type_slug: github
+path: ''
 entrypoint: flows/parameterized_flow.py:etl_parent_flow
 parameter_openapi_schema:
   title: Parameters
@@ -37,22 +46,21 @@ parameter_openapi_schema:
   properties:
     months:
       title: months
-      default:
-      - 1
       position: 0
       type: array
       items:
         type: integer
     year:
       title: year
-      default: 2020
       position: 1
       type: integer
     color:
       title: color
-      default: green
       position: 2
       type: string
-  required: null
+  required:
+  - months
+  - year
+  - color
   definitions: null
-timestamp: '2023-02-03T16:17:53.737732+00:00'
+timestamp: '2023-02-03T19:59:26.232540+00:00'
